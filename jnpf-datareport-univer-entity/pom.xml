@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.jnpf</groupId>
+        <artifactId>jnpf-datareport-univer</artifactId>
+        <version>6.1.0-RELEASE</version>
+    </parent>
+
+    <artifactId>jnpf-datareport-univer-entity</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.jnpf</groupId>
+            <artifactId>jnpf-datareport-univer-common${jnpf.datareport.core.jdk.version}</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+
+
+    <profiles>
+        <profile>
+            <!--JAR包加密-->
+            <id>encrypted</id>
+            <build>
+                <plugins>
+                    <!--复制驱动包-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-dependencies</id>
+                                <phase>clean</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <includeGroupIds>com.jnpf</includeGroupIds>
+                                    <includeArtifactIds>jnpf-datareport-univer-model${jnpf.datareport.core.jdk.version}</includeArtifactIds>
+                                    <outputDirectory>${project.build.directory}/copylib</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

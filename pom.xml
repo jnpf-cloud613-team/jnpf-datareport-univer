@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.jnpf</groupId>
+        <artifactId>jnpf-datareport-univer-core</artifactId>
+        <version>6.1.0-RELEASE</version>
+    </parent>
+
+    <artifactId>jnpf-datareport-univer</artifactId>
+    <version>6.1.0-RELEASE</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>jnpf-datareport-univer-entity</module>
+        <module>jnpf-datareport-univer-biz</module>
+        <module>jnpf-datareport-univer-controller</module>
+        <module>jnpf-datareport-univer-admin</module>
+    </modules>
+    <properties>
+        <!--项目打包时lib目录位置, 不能使用Windows盘符D:/, /代表从磁盘根目录开始-->
+        <external-lib-out-path>${project.build.directory}/external-lib/</external-lib-out-path>
+        <!--项目启动时lib目录位置, 不能使用Windows盘符D:/, /代表从磁盘根目录开始-->
+        <external-lib-start-path>external-lib/</external-lib-start-path>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.sejda.imageio</groupId>
+            <artifactId>webp-imageio</artifactId>
+            <version>0.1.6</version>
+        </dependency>
+    </dependencies>
+
+
+    <profiles>
+        <profile>
+            <id>boot3</id>
+            <activation>
+                <jdk>[17,)</jdk>
+            </activation>
+            <properties>
+                <jnpf.datareport.core.jdk.version></jnpf.datareport.core.jdk.version>
+            </properties>
+            <modules>
+                <module>jnpf-compatible/jnpf-datareport-univer-v3</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>boot2</id>
+            <activation>
+                <jdk>(,17)</jdk>
+            </activation>
+            <properties>
+                <jnpf.datareport.core.jdk.version></jnpf.datareport.core.jdk.version>
+                <!--若使用JDK8，且无jnpf-datareport-univer-core项目源码， 注释上方版本定义, 删除下方注释， 切换JDK8版本依赖-->
+<!--                <jnpf.datareport.core.jdk.version>-jdk8</jnpf.datareport.core.jdk.version>-->
+            </properties>
+            <modules>
+                <module>jnpf-compatible/jnpf-datareport-univer-v2</module>
+            </modules>
+        </profile>
+    </profiles>
+
+</project>

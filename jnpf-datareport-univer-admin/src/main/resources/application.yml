@@ -1,0 +1,87 @@
+spring:
+  application:
+    name: jnpf-datareport
+  profiles:
+    # 指定环境配置 dev(开发环境-默认)、test(测试环境)、preview(预生产环境)、prod(生产环境)
+    active: dev
+  servlet:
+    multipart: #文件传输配置
+      max-file-size: 100MB #单个数据大小限制
+      max-request-size: 100MB #请求总数据大小限制
+      enabled: true  #是否启用分段上传支持
+  mvc:
+    hiddenmethod: #隐式方法过滤器
+      filter:
+        enabled: true #默认开启。开启以支持：PUT,DELETE表单提交方法
+  jackson: #序列化和反序列化json框架
+    serialization:
+      write-dates-as-timestamps: true #是否写入日期时间时间戳格式
+    time-zone: GMT+8 #指定日期格式化时区
+  main:
+    allow-bean-definition-overriding: true #允许同名bean后者覆盖,默认：true
+    allow-circular-references: true #允许Bean相互引用,默认：false
+
+config:
+  #===================== 访问域名 =====================
+  WebAnnexFilePath: WebAnnexFile
+  DataBackupFilePath: DataBackupFile
+  TemporaryFilePath: TemporaryFile
+  SystemFilePath: SystemFile
+  TemplateFilePath: TemplateFile
+  EmailFilePath: EmailFile
+  DocumentFilePath: DocumentFile
+  DocumentPreviewPath: DocumentPreview
+  UserAvatarFilePath: UserAvatar
+  IMContentFilePath: IMContentFile
+  MPMaterialFilePath: MPMaterial
+  TemplateCodePath: TemplateCode
+  BiVisualPath: BiVisualPath
+
+  ApiDomain: http://127.0.0.1:30000 #主项目后端域名(文档预览中使用)
+  FrontDomain: http://127.0.0.1:3100 #前端域名(文档预览中使用)
+  AppDomain: http://127.0.0.1:8080 #app/h5端域名配置(文档预览中使用)
+
+  #===================== 多租户 =====================
+  MultiTenancy: false #是否开启
+  MultiTenancyUrl: http://127.0.0.1:30006/api/tenant/DbName/ #多租户项目地址
+
+  #===================== 系统功能配置 =====================
+  EnableLogicDelete: false #是否开启逻辑删除
+
+# 接口放行地址 与GatewayWhite中的默认URL合并
+gateway:
+  # 禁止访问接口
+  block-url:
+  ## 配置示例
+  #- /api/message/Notice
+  #- /api/permission/Users/*
+  # 不验证Token, 放行接口（默认记录日志）
+  white-url:
+  #  # 配置示例
+  #- /api/message/Notice
+  #- /api/permission/Users/*
+  # 放行接口(不记录日志)
+  exclude-url:
+  #  # 配置示例
+  #- /api/message/Notice
+  #- /api/permission/Users/*
+  # 入站IP（禁止配置以外的IP访问block-url配置的接口）
+  white-ip:
+  #- 192.168.0.10
+  #- 192.168.0.20
+
+# 日志配置
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    #自定义第三方包名日志等级
+    # 解除注释后Druid连接池打印SQL语句
+    druid.sql.Statement: debug
+#    druid.sql.DataSource: debug
+#    druid.sql.Connection: debug
+#    druid.sql.ResultSet: debug
+log:
+  level:
+    # 等级 TRACE,DEBUG,INFO,WARN,ERROR(不区分大小写)
+    root: info
+  path: log/${spring.application.name}
